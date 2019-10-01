@@ -5,3 +5,4 @@
 
 
 source(file.path("src", "00_setup.R"))
+source(file.path("src", "01_fish_data_clean.R"))
