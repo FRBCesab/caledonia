@@ -2,11 +2,26 @@ Salut
 
 Quelques infos utiles :
 - base poissons :
-1/ dans « Fish_Intermediate_allstations_2003-2018 » (fichier de données brutes), bug dans COREMO ma base de saisie et d’archivage) qui m’oblige à exporter TOUTE la base, or j’ai fait une sélection : seuls les identifiants listés dans « Fish_Observation_allstations_2003-2018 » sont à prendre en compte
+1/ dans « Fish_Intermediate_allstations_2003-2018 » (fichier de données brutes),
+bug dans COREMO (ma base de saisie et d’archivage) qui m’oblige à exporter TOUTE
+la base, or j’ai fait une sélection : seuls les identifiants listés dans
+« Fish_Observation_allstations_2003-2018 » sont à prendre en compte
+
 2/ certaines (rares) années l’identifiant bug… voici comment l’identifiant est construit :
 NCLI01412312A
- => NCL (pour Nouvelle-Calédonie), I (??) 01 (année, campagne 2001-2002 pour le coup) 412312 (station) A (réplicat, il devrait toujours être A car une collecte de données par an par compartiment biologique et par station)
-- base invertébrés : à partir de 2010 on a commencé à mesurer les bénitiers (code BEN) et trocas (code TRO). Les tailles sont saisies dans la colonne « Remarks ». Je ne pense pas qu’on s’en serve dans le cadre de ce projet, mais au cas où je le signale (que tu ne t’affoles pas en voyant des tonnes de chiffres!! car sur certains spots de NC c’est damé de bénitiers!!)
+ =>
+ NCL (pour Nouvelle-Calédonie),
+ I (??)
+ 01 (année, campagne 2001-2002 pour le coup)
+ 412312 (station)
+ A (réplicat, il devrait toujours être A car une collecte de données par an par compartiment biologique et par station)
+
+- base invertébrés : à partir de 2010 on a commencé à mesurer les bénitiers
+(code BEN) et trocas (code TRO). Les tailles sont saisies dans la colonne
+« Remarks ». Je ne pense pas qu’on s’en serve dans le cadre de ce projet, mais au
+cas où je le signale (que tu ne t’affoles pas en voyant des tonnes de chiffres!!
+car sur certains spots de NC c’est damé de bénitiers!!)
+
 - base habitats : structure différente
 Comme on a dit, je pense qu’il vaudrait mieux recréer un nouvel identifiant pour le projet REEF SCORE, sous la forme : Année_n° de la station_n° du transect
 Par exemple : 05_01_01 (année 2005, station 1, transect 1)
