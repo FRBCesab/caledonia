@@ -16,6 +16,17 @@ counts <- readxl::read_xls(path = filename, sheet = 1, col_types = "text")
 counts <- as.data.frame(counts)
 counts <- counts[!is.na(counts[ , "Survey ID"]), ]
 
+filename <- file.path(
+  "data",
+  "New Caledonia RORC",
+  "Fish_Intermediate_RORC2018_IleOuen.xls"
+)
+
+temp <- readxl::read_xls(path = filename, sheet = 1, col_types = "text")
+temp <- as.data.frame(temp)
+
+counts <- rbind(counts, temp)
+
 
 
 #' ----------------------------------------------------------------------------- @ImportStationsInfos
@@ -30,6 +41,17 @@ filename <- file.path(
 stations <- readxl::read_xls(path = filename, sheet = 1, col_types = "text")
 stations <- as.data.frame(stations)
 stations <- stations[!is.na(stations[ , "sample_ID"]), ]
+
+filename <- file.path(
+  "data",
+  "New Caledonia RORC",
+  "Fish_Observation_RORC2018_IleOuen.xls"
+)
+
+temp <- readxl::read_xls(path = filename, sheet = 1, col_types = "text")
+temp <- as.data.frame(temp)
+
+stations <- rbind(stations, temp)
 
 
 
@@ -82,15 +104,20 @@ keys <- paste(
   datas[ , "noid"],
   datas[ , "Replicate"],
   datas[ , "Scientific name"],
-  # datas[ , "Scale abundance"],
-  # datas[ , "Number of individus"],
   sep = "__"
 )
 
-pos <- which(duplicated(keys))
-if (length(pos) > 0) {
-  datas <- datas[-pos, ]
+kkeys <- keys[which(duplicated(keys))]
+
+if (length(kkeys) > 0) {
+  for (key in kkeys) {
+    pos <- which(keys == key)
+    datas[pos[1], "Number of individus"] <- sum(as.numeric(datas[pos, "Number of individus"]))
+  }
+
+  datas <- datas[-which(duplicated(keys)), ]
 }
+
 
 
 
@@ -110,7 +137,7 @@ template <- as.data.frame(matrix(nrow = nrow(datas), ncol = ncol(col_names)))
 colnames(template) <- colnames(col_names)
 
 
-template[ , "DatasetID"]   <- "RORC"
+template[ , "DatasetID"]   <- "RORC (New Caledonian Coral Reef Monitoring Network)"
 template[ , "SurveyID"]    <- NA
 template[ , "Area"]        <- "Pacific"
 template[ , "Country"]     <- "France"
@@ -127,7 +154,7 @@ template[ , "Zone"]        <- unlist(
 )
 
 
-template[ , "Method"]      <- paste("Belt transect, 20 x 5 m")
+template[ , "Method"]      <- paste("Belt transect, 20 x 5 m (x 4 zones)")
 template[ , "Total_area"]  <- 100
 template[ , "Location"]    <- datas[ , "Site"]
 template[ , "Site"]        <- datas[ , "Station"]
@@ -171,23 +198,28 @@ template <- template[template[ , "Species"] != "Rien / nothing", ]
 
 
 filename <- file.path(
-  res_dir_get_stations_coords,
-  "stations_coords.csv"
+  "data",
+  "New Caledonia RORC",
+  "stations_coordinates.xlsx"
 )
 
-sta_coords <- readr::read_csv(filename)
-sta_coords <- as.data.frame(sta_coords)
-sta_coords <- sta_coords[!is.na(sta_coords[ , "longitude"]), ]
 
-sta_coords <- sta_coords[ , c("station", "longitude", "latitude")]
+sta_coords <- readxl::read_xlsx(path = filename, sheet = 1, skip = 0)
+sta_coords <- as.data.frame(sta_coords)
+
+sta_coords <- sta_coords[ , c("station", "site_name", "station_name", "longitude", "latitude")]
 
 template <- merge(x = template, y = sta_coords, by.x = "Site", by.y = "station", all = TRUE)
 
 template[ , "Longitude"] <- template[ , "longitude"]
 template[ , "Latitude"]  <- template[ , "latitude"]
+template[ , "Site"]      <- template[ , "station_name"]
+template[ , "Location"]  <- template[ , "site_name"]
 
-template <- template[ , -which(colnames(template) %in% c("longitude", "latitude"))]
 template <- template[with(template, order(Date, Location, Site, Replicate, Family, Size_class)), colnames(col_names)]
 rownames(template) <- NULL
 
 writexl::write_xlsx(x = template, path = file.path(res_dir_fish_data_clean, "RORC_NCL_Fish_Dataset.xlsx"))
+
+
+Hnasse, Honem, Jothie, Luecilla 1, Luecilla 2, Qanono
