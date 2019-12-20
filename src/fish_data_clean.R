@@ -220,6 +220,3 @@ template <- template[with(template, order(Date, Location, Site, Replicate, Famil
 rownames(template) <- NULL
 
 writexl::write_xlsx(x = template, path = file.path(res_dir_fish_data_clean, "RORC_NCL_Fish_Dataset.xlsx"))
-
-
-Hnasse, Honem, Jothie, Luecilla 1, Luecilla 2, Qanono
