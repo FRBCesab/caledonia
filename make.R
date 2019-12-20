@@ -7,3 +7,4 @@
 source(file.path("src", "setup.R"))
 # source(file.path("src", "get_stations_coords.R"))
 source(file.path("src", "fish_data_clean.R"))
+source(file.path("src", "benthos_data_clean.R"))
